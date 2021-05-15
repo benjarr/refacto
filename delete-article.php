@@ -6,6 +6,8 @@
  * It will therefore be necessary to make sure that an "id" is passed in GET, then that this article exists
  * Then, we will be able to delete article and redirect to the home page
  */
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
 
 /**
  * 1. We check that GET have an "id" and it is a number
@@ -21,10 +23,7 @@ $id = $_GET['id'];
  *
  * PS: You notice that these are the same lines as for index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Check that the article exist
@@ -44,5 +43,4 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection to the home page
  */
-header("Location: index.php");
-exit();
+redirect('index.php');

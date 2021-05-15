@@ -10,6 +10,8 @@
  *
  * then display the article and its comments
  */
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
 
 /**
  * 1. Retrieving the "id" and verifying it
@@ -32,10 +34,7 @@ if (!$article_id) {
  *
  * PS: You notice that these are the same lines as for index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Retrieving the article where id = article_id
@@ -58,8 +57,5 @@ $comments = $query->fetchAll();
  * 5. Display
  */
 $pageTitle = $article['title'];
-ob_start();
-require('templates/articles/show.html.php');
-$pageContent = ob_get_clean();
 
-require('templates/layout.html.php');
+render('articles/show', compact('pageTitle', 'article', 'comments', 'article_id'));

@@ -6,14 +6,13 @@
  * We will connect to the database, retrieve the articles from the most recent to the oldest
  * then loop over it to display each of them
  */
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
 
 /**
  * 1. Connection to the database with PDO
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 2. Find all articles order by creation date
@@ -25,8 +24,5 @@ $articles = $results->fetchAll();
  * 3. Display
  */
 $pageTitle = "Home";
-ob_start();
-require('templates/articles/index.html.php');
-$pageContent = ob_get_clean();
 
-require('templates/layout.html.php');
+render('articles/index', compact('pageTitle', 'articles'));

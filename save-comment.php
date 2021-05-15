@@ -13,6 +13,8 @@
  * 
  * And finally we can redirect the user to the article in question
  */
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
 
 /**
  * 1. We check that the data has been sent in POST
@@ -51,10 +53,7 @@ if (!$author || !$article_id || !$content) {
  * 
  * PS: Haven't we written these lines three times to connect ?! 
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 $query = $pdo->prepare('SELECT * FROM articles WHERE id = :article_id');
 $query->execute(['article_id' => $article_id]);
@@ -73,5 +72,4 @@ $query->execute(compact('author', 'content', 'article_id'));
 /**
  * 4. Redirection to the article in question
  */
-header('Location: article.php?id=' . $article_id);
-exit();
+redirect("article.php?id=" . $article_id);

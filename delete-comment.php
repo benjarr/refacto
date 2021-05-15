@@ -6,6 +6,8 @@
  * We will therefore check that the "id" is present in GET, that it corresponds to an existing comment
  * Then we will delete it!
  */
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
 
 /**
  * 1. Retrieving the "id" in GET
@@ -21,10 +23,7 @@ $id = $_GET['id'];
  *
  * PS: You notice that these are the same lines as for index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Check that the comment exist
@@ -49,5 +48,4 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection to the article in question
  */
-header("Location: article.php?id=" . $article_id);
-exit();
+redirect("article.php?id=" . $article_id);
