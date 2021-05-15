@@ -26,32 +26,21 @@ if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
 
 // We can now decide: error or not?!
 if (!$article_id) {
-    die("You must specify an `id` parameter in the URL !");
+    die("You must specify an `id` parameter in the URL!");
 }
 
 /**
- * 2. Connection to the database with PDO
- *
- * PS: You notice that these are the same lines as for index.php ?!
- */
-$pdo = getPdo();
-
-/**
  * 3. Retrieving the article where id = article_id
- * Here we will use a prepared query because it includes a variable that comes from the user :
- * Never trust users!
  */
-$query = $pdo->prepare("SELECT * FROM articles WHERE id = :article_id");
-$query->execute(['article_id' => $article_id]);
-$article = $query->fetch();
+$article = findArticle($article_id);
+if (!$article) {
+    die("Article $article_id doen't exist!");
+}
 
 /**
- * 4. Retrieving comments from the article who have id = article_id
- * Same, always a prepared request to secure the data sent by the user
+ * 4. Retrieving comments by article_id
  */
-$query = $pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id");
-$query->execute(['article_id' => $article_id]);
-$comments = $query->fetchAll();
+$comments = findAllComments($article_id);
 
 /**
  * 5. Display

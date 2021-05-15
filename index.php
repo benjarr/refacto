@@ -10,15 +10,9 @@ require_once('libraries/database.php');
 require_once('libraries/utils.php');
 
 /**
- * 1. Connection to the database with PDO
- */
-$pdo = getPdo();
-
-/**
  * 2. Find all articles order by creation date
  */
-$results = $pdo->query('SELECT * FROM articles ORDER BY created_at DESC');
-$articles = $results->fetchAll();
+$articles = findAllArticles();
 
 /**
  * 3. Display

@@ -19,31 +19,19 @@ if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
 $id = $_GET['id'];
 
 /**
- * 2. Connection to the database with PDO
- *
- * PS: You notice that these are the same lines as for index.php ?!
- */
-$pdo = getPdo();
-
-/**
  * 3. Check that the comment exist
  */
-$query = $pdo->prepare('SELECT * FROM comments WHERE id = :id');
-$query->execute(['id' => $id]);
-if ($query->rowCount() === 0) {
+$comment = findComment($id);
+if (!$comment) {
     die("Item $id does not exist, so you cannot delete it!");
 }
 
 /**
  * 4. Real suppression of the comment
- * On récupère l'identifiant de l'article avant de supprimer le commentaire
  */
+$article_id = $comment['article_id'];
 
-$commentaire = $query->fetch();
-$article_id = $commentaire['article_id'];
-
-$query = $pdo->prepare('DELETE FROM comments WHERE id = :id');
-$query->execute(['id' => $id]);
+deleteComment($id);
 
 /**
  * 5. Redirection to the article in question

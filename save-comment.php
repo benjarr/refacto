@@ -46,28 +46,16 @@ if (!$author || !$article_id || !$content) {
     die("Your form was incorrectly completed!");
 }
 
-/**
- * 2. Checking that the article id points to an existing article
- * It requires a connection to database then a request that will find the article in question
- * If nothing comes back, the person is fucking us.
- * 
- * PS: Haven't we written these lines three times to connect ?! 
- */
-$pdo = getPdo();
-
-$query = $pdo->prepare('SELECT * FROM articles WHERE id = :article_id');
-$query->execute(['article_id' => $article_id]);
-
+$article = findArticle($article_id);
 // If nothing came back, we made a mistake
-if ($query->rowCount() === 0) {
+if (!$article) {
     die("Ho! The article $article_id does not exist boloss!");
 }
 
 /**
  * 3. Comment insertion
  */
-$query = $pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
-$query->execute(compact('author', 'content', 'article_id'));
+insertComment($author, $content, $article_id);
 
 /**
  * 4. Redirection to the article in question
