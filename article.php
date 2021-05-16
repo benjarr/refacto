@@ -10,8 +10,12 @@
  *
  * then display the article and its comments
  */
-require_once('libraries/database.php');
 require_once('libraries/utils.php');
+require_once('libraries/models/Article.php');
+require_once('libraries/models/Comment.php');
+
+$articleModel = new Article();
+$commentModel = new Comment();
 
 /**
  * 1. Retrieving the "id" and verifying it
@@ -32,7 +36,7 @@ if (!$article_id) {
 /**
  * 3. Retrieving the article where id = article_id
  */
-$article = findArticle($article_id);
+$article = $articleModel->find($article_id);
 if (!$article) {
     die("Article $article_id doen't exist!");
 }
@@ -40,7 +44,7 @@ if (!$article) {
 /**
  * 4. Retrieving comments by article_id
  */
-$comments = findAllComments($article_id);
+$comments = $commentModel->findAllBy($article_id);
 
 /**
  * 5. Display

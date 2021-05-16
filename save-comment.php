@@ -13,8 +13,12 @@
  * 
  * And finally we can redirect the user to the article in question
  */
-require_once('libraries/database.php');
 require_once('libraries/utils.php');
+require_once('libraries/models/Article.php');
+require_once('libraries/models/Comment.php');
+
+$articleModel = new Article();
+$commentModel = new Comment();
 
 /**
  * 1. We check that the data has been sent in POST
@@ -46,7 +50,7 @@ if (!$author || !$article_id || !$content) {
     die("Your form was incorrectly completed!");
 }
 
-$article = findArticle($article_id);
+$article = $articleModel->find($article_id);
 // If nothing came back, we made a mistake
 if (!$article) {
     die("Ho! The article $article_id does not exist boloss!");
@@ -55,7 +59,7 @@ if (!$article) {
 /**
  * 3. Comment insertion
  */
-insertComment($author, $content, $article_id);
+$commentModel->insert($author, $content, $article_id);
 
 /**
  * 4. Redirection to the article in question

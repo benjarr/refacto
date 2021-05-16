@@ -6,8 +6,10 @@
  * We will therefore check that the "id" is present in GET, that it corresponds to an existing comment
  * Then we will delete it!
  */
-require_once('libraries/database.php');
 require_once('libraries/utils.php');
+require_once('libraries/models/Comment.php');
+
+$model = new Comment();
 
 /**
  * 1. Retrieving the "id" in GET
@@ -21,7 +23,7 @@ $id = $_GET['id'];
 /**
  * 3. Check that the comment exist
  */
-$comment = findComment($id);
+$comment = $model->find($id);
 if (!$comment) {
     die("Item $id does not exist, so you cannot delete it!");
 }
@@ -31,7 +33,7 @@ if (!$comment) {
  */
 $article_id = $comment['article_id'];
 
-deleteComment($id);
+$model->delete($id);
 
 /**
  * 5. Redirection to the article in question
