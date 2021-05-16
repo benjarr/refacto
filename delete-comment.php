@@ -6,7 +6,7 @@
  * We will therefore check that the "id" is present in GET, that it corresponds to an existing comment
  * Then we will delete it!
  */
-require_once('libraries/controllers/Comment.php');
+require_once('libraries/autoload.php');
 
 $controller = new \Controllers\Comment();
 $controller->delete();

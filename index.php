@@ -6,7 +6,8 @@
  * We will connect to the database, retrieve the articles from the most recent to the oldest
  * then loop over it to display each of them
  */
-require_once('libraries/controllers/Article.php');
+// require_once('libraries/controllers/Article.php');
+require_once('libraries/autoload.php');
 
 $controller = new \Controllers\Article();
 $controller->index();
