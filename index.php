@@ -14,7 +14,7 @@ $model = new Article();
 /**
  * 2. Find all articles order by creation date
  */
-$articles = $model->findAll();
+$articles = $model->findAll("created_at DESC");
 
 /**
  * 3. Display

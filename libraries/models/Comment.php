@@ -4,6 +4,8 @@ require_once('libraries/models/Model.php');
 
 class Comment extends Model
 {
+    protected $table = "comments";
+
     /**
      * Return comments by article_id order by creation date
      *
@@ -17,33 +19,6 @@ class Comment extends Model
         $comments = $query->fetchAll();
 
         return $comments;
-    }
-
-    /**
-     * Return comment by id or boolean if id doesn't found
-     *
-     * @param integer $id
-     * @return array|bool
-     */
-    public function find(int $id)
-    {
-        $query = $this->pdo->prepare('SELECT * FROM comments WHERE id = :id');
-        $query->execute(['id' => $id]);
-        $comment = $query->fetch();
-
-        return $comment;
-    }
-
-    /**
-     * Delete comment from Database
-     *
-     * @param integer $id
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        $query = $this->pdo->prepare('DELETE FROM comments WHERE id = :id');
-        $query->execute(['id' => $id]);
     }
 
     /**
