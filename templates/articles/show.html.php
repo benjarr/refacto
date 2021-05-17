@@ -14,13 +14,13 @@
             <div class="card-body text-secondary">
                 <h5 class="card-title">Commented by <?= $comment['author'] ?> <small class="text-warning">Le <?= $comment['created_at'] ?></small></h5>
                 <p class="card-text"><small><?= $comment['content'] ?></small></p>
-                <a class="btn btn-outline-secondary" href="delete-comment.php?id=<?= $comment['id'] ?>" onclick="return window.confirm(`Are you sure you want to delete this comment ?!`)">Delete</a>
+                <a class="btn btn-outline-secondary" href="index.php?controller=comment&task=delete&id=<?= $comment['id'] ?>" onclick="return window.confirm(`Are you sure you want to delete this comment ?!`)">Delete</a>
             </div>
         </div>
     <?php endforeach ?>
 <?php endif ?>
 <hr>
-<form class="mb-5" action="save-comment.php" method="POST">
+<form class="mb-5" action="index.php?controller=comment&task=insert" method="POST">
     <div class="form-group">
         <h3>Do you want to react? Don't hesitate bros!</h3>
     </div>
